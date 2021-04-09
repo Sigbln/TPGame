@@ -58,13 +58,19 @@ class Map(metaclass=SingletonMeta):
         for i in range(self.__width):
             self.__scheme.append(input())
 
-        print("Хотите ли вы сохранить карту")
-        print("1. Да")
-        print("2. Нет")
-        option = int(input())
+        menu_output = """
+        Хотите ли вы сохранить карту?
+        1. Да,
+        2. Нет.
+        """
+        print(menu_output)
+         option = int(input())
         while not isinstance(option, int) or option < 1 or option > 2:
-            print("Неверный ввод.")
-            print("Попробуйте ещё раз.")
+            err_output = """
+            Неверный ввод.
+            Попробуйте ещё раз.
+            """
+            print(err_output)
             option = int(input())
 
         if option == 1:

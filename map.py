@@ -16,7 +16,7 @@ class Map(metaclass=SingletonMeta):
 
     @length.setter
     def length(self, length):
-        while length > 0 or isinstance(length, int):
+        if length > 0 or isinstance(length, int):
             self.__length = length
         else:
             raise ValueError

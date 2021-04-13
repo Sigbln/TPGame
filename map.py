@@ -1,7 +1,4 @@
-from tools import SingletonMeta
-
-
-class Map(metaclass=SingletonMeta):
+class Map():
     maxLength = 100
     maxWidth = 100
 

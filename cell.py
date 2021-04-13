@@ -10,6 +10,35 @@ class Cell(metaclass=ABCMeta):
 
     @property
     def x(self):
+        pass
+
+    @x.setter
+    def x(self, x):
+        pass
+
+    @property
+    def y(self):
+        pass
+
+    @y.setter
+    def y(self, y):
+        pass
+
+
+class Spawner(Cell):
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not Spawner._instance:
+            Spawner._instance = super(Spawner, cls).__new__(cls)
+        return Spawner._instance
+
+    def __init__(self, x, y, power):
+        super().__init__(x, y)
+        self.__power = power
+
+    @property
+    def x(self):
         return self.__x
 
     @x.setter
@@ -24,30 +53,6 @@ class Cell(metaclass=ABCMeta):
     def y(self, y):
         self.__y = y
 
-
-class Spawner(Cell):
-    __metaclass__ = SingletonMeta
-
-    def __init__(self, x, y, power):
-        super().__init__(x, y)
-        self.__power = power
-
-    @property
-    def x(self):
-        return super().x
-
-    @x.setter
-    def x(self, x):
-        self.__x = super().x(x)
-
-    @property
-    def y(self):
-        return super().y
-
-    @y.setter
-    def y(self, y):
-        self.__y = super().y(y)
-
     @property
     def power(self):
         return self.__power
@@ -61,7 +66,12 @@ class Spawner(Cell):
 
 
 class Castle(Cell):
-    __metaclass__ = SingletonMeta
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not Castle._instance:
+            Castle._instance = super(Castle, cls).__new__(cls)
+        return Castle._instance
 
     def __init__(self, x, y, money, hp):
         super().__init__(x, y)
@@ -70,19 +80,19 @@ class Castle(Cell):
 
     @property
     def x(self):
-        return super().x
+        return self.__x
 
     @x.setter
     def x(self, x):
-        self.__x = super().x(x)
+        self.__x = x
 
     @property
     def y(self):
-        return super().y
+        return self.__y
 
     @y.setter
     def y(self, y):
-        self.__y = super().y(y)
+        self.__y = y
 
     @property
     def money(self):
@@ -115,19 +125,19 @@ class Tower(Cell):
 
     @property
     def x(self):
-        return super().x
+        return self.__x
 
     @x.setter
     def x(self, x):
-        self.__x = super().x(x)
+        self.__x = x
 
     @property
     def y(self):
-        return super().y
+        return self.__y
 
     @y.setter
     def y(self, y):
-        self.__y = super().y(y)
+        self.__y = y
 
     @property
     def damage(self):

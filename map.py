@@ -38,10 +38,7 @@ class Map(metaclass=SingletonMeta):
 
     @scheme.setter
     def scheme(self, scheme):
-        if len(self.__length) != self.__scheme:
-            self.__scheme = scheme
-        else:
-            raise ValueError
+        self.__scheme = scheme
 
     def create(self):
         print("Введите количество клеток в длину:")
@@ -58,8 +55,7 @@ class Map(metaclass=SingletonMeta):
         for i in range(self.__width):
             self.__scheme.append(input())
 
-        menu_output =
-        """
+        menu_output = """
         Хотите ли вы сохранить карту?
         1. Да,
         2. Нет.

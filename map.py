@@ -16,7 +16,7 @@ class Map(metaclass=SingletonMeta):
 
     @length.setter
     def length(self, length):
-        while length > 0 or isinstance(length, int):
+        if length > 0 or isinstance(length, int):
             self.__length = length
         else:
             raise ValueError
@@ -38,10 +38,7 @@ class Map(metaclass=SingletonMeta):
 
     @scheme.setter
     def scheme(self, scheme):
-        if len(self.__length) != self.__scheme:
-            self.__scheme = scheme
-        else:
-            raise ValueError
+        self.__scheme = scheme
 
     def create(self):
         print("Введите количество клеток в длину:")
@@ -58,9 +55,12 @@ class Map(metaclass=SingletonMeta):
         for i in range(self.__width):
             self.__scheme.append(input())
 
-        print("Хотите ли вы сохранить карту")
-        print("1. Да")
-        print("2. Нет")
+        menu_output = """
+        Хотите ли вы сохранить карту?
+        1. Да,
+        2. Нет.
+        """
+        print(menu_output)
         option = int(input())
         while not isinstance(option, int) or option < 1 or option > 2:
             print("Неверный ввод.")

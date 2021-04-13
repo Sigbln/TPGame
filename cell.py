@@ -1,8 +1,5 @@
 from abc import ABCMeta
 
-from tools import SingletonMeta
-
-
 class Cell(metaclass=ABCMeta):
     def __init__(self, x, y):
         self.__x = x

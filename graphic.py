@@ -1,19 +1,12 @@
 import pygame
 
-import saver
-import map
 import anims
 import global_names
+import map
+import saver
 
 pygame.init()
 
-
-def game_process():
-    if not global_names.TIMER % 30:
-        spawn_unit_of_wave()
-
-    global_names.TIMER += 1
-    pass
 
 def create_map():
     global_names.MAP = map.Map()

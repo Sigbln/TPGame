@@ -21,7 +21,7 @@ while global_names.RUN:
         if global_names.PLAY:
             graphic.game_process()
         graphic.key_check_levels()
-        graphic.draw_window_levels()
+        global_names.draw_window_levels()
 
     #game_module.search()
 

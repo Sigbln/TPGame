@@ -2,6 +2,7 @@ import collections
 import random
 import global_names
 import cell
+import monster
 
 def way_to_move():
     rdl = [[3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -27,10 +28,6 @@ def way_to_move():
 
     n = 18
     m = 27
-    global_names.CASTLE_X = 2
-    global_names.CASTLE_Y = 2
-    global_names.global_names.SPAWNER_X = 0
-    global_names.SPAWNER_Y = 0
 
     for i in range(n):
         stroka = []
@@ -40,20 +37,20 @@ def way_to_move():
             elif rdl[i][k] == 2:
                 stroka.append(0)
             elif rdl[i][k] == 4:
-                global_names.CASTLE_X = i
-                global_names.CASTLE_Y = k
+                global_names.CASTLE.x = i
+                global_names.CASTLE.y = k
                 stroka.append(0)
             elif rdl[i][k] == 3:
-                global_names.SPAWNER_X = i
-                global_names.SPAWNER_Y = k
+                global_names.SPAWNER.x = i
+                global_names.SPAWNER.y = k
                 stroka.append(0)
             else:
                 stroka.append(rdl[k][i])
         lab.append(stroka)
 
-    finalout = voln(global_names.SPAWNER_X, global_names.SPAWNER_Y, 1, n, m, lab)
-    if lab[global_names.CASTLE_X][global_names.CASTLE_Y] > 0:
-        path = way(global_names.SPAWNER_X, global_names.SPAWNER_Y, global_names.CASTLE_X, global_names.CASTLE_Y, finalout)
+    finalout = voln(global_names.SPAWNER.x, global_names.SPAWNER.y, 1, n, m, lab)
+    if lab[global_names.CASTLE.x][global_names.CASTLE.y] > 0:
+        path = way(global_names.SPAWNER.x, global_names.SPAWNER.y, global_names.CASTLE.x, global_names.CASTLE.y, finalout)
         path = path[::-1]
         global_names.PATH = path
     else:
@@ -94,30 +91,48 @@ def way(x1, y1, x2, y2, lab):
     return path
 
 def monsters_move(monster):
-    if global_names.PATH[monster.point + 1][0] - global_names.PATH[monster.point][0]:
-        if monster.x + monster.speed < 40 * global_names.PATH[monster.point]:
-            monster.x += monster.speed
+    if monster.point:
+        if global_names.PATH[monster.point + 1][0] - global_names.PATH[monster.point][0]:
+            if monster.x + monster.speed < 40 * global_names.PATH[monster.point]:
+                monster.x += monster.speed
+            else:
+                monster.x = monster.speed - (40 - monster.x)
+                monster.point += 1
+                if monster.point == len(global_names.PATH):
+                    monster.finish()
         else:
-            monster.x = monster.speed - (40 - monster.x)
-            monster.point += 1
-            if monster.point == len(global_names.PATH):
-                monster.finish()
-    else:
-        if monster.y + monster.speed < 40 * global_names.PATH[monster.point]:
-            monster.y += monster.speed
-        else:
-            monster.y = monster.speed - (40 - monster.y)
-            monster.point += 1
-            if monster.point == len(global_names.PATH):
-                monster.finish()
+            if monster.y + monster.speed < 40 * global_names.PATH[monster.point]:
+                monster.y += monster.speed
+            else:
+                monster.y = monster.speed - (40 - monster.y)
+                monster.point += 1
+                if monster.point == len(global_names.PATH):
+                    monster.finish()
 
     return monster
 
-def monsters_generate():
+def wave_generate():
     for i in range(0, global_names.SPAWNER.power):
-        global_names.MONSTERS.append(random.randint(0, 2))
+        global_names.MONSTERS.append(monster.Monster[random.randint(0, 2)])
 
 def monsters_spawn():
-    
+    for i in global_names.MONSTERS:
+        if not i.point:
+            i.point = 1
+            break
 
-way_to_move()
+
+def game_process():
+    if not global_names.TIMER % 30:
+        monsters_spawn()
+    if not (global_names.TIMER / 30 - len(global_names.MONSTERS) - global_names.WAVE_LONG) % 10:
+        wave_generate()
+
+    for unit in global_names.MONSTERS:
+        monsters_move(unit)
+
+    global_names.TIMER += 1
+    pass
+
+
+way = way_to_move()

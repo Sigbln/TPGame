@@ -31,7 +31,8 @@ class Spawner(Cell):
         return Spawner._instance
 
     def __init__(self, x, y, power):
-        super().__init__(x, y)
+        self.__x = x
+        self.__y = y
         self.__power = power
 
     @property

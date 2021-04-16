@@ -8,6 +8,13 @@ import global_names
 pygame.init()
 
 
+def game_process():
+    if not global_names.TIMER % 30:
+        spawn_unit_of_wave()
+
+    global_names.TIMER += 1
+    pass
+
 def create_map():
     global_names.MAP = map.Map()
     for i in range(global_names.MAP.width):
@@ -37,7 +44,6 @@ def get_mouse_for_cell():
                                     0] // global_names.CELL_SIZE
     global_names.TEMP_CELL[1] = global_names.TEMP_CELL[
                                     1] // global_names.CELL_SIZE
-    print(global_names.TEMP_CELL)
 
 
 def create_window():
@@ -116,7 +122,11 @@ def key_check_levels():
             global_names.RUN = False
         if global_names.EVENT.type == pygame.MOUSEBUTTONDOWN:
             if global_names.PLAY:
-                # место для менюшки с башнями
+                get_mouse_for_cell()
+                if global_names.MAP.scheme[global_names.TEMP_CELL[1]][
+                    global_names.TEMP_CELL[0]] == anims.grass:
+                    global_names.MAP.scheme[global_names.TEMP_CELL[1]][
+                        global_names.TEMP_CELL[0]] = anims.tower
                 pass
             else:
                 # стрелка влево
@@ -148,7 +158,8 @@ def key_check_levels():
 def draw_window_levels():
     global_names.MAP.print()
     if global_names.PLAY:
-        # место для анимации монстров
+        global_names.SCREEN.blit(anims.monster, (
+            global_names.SPAWNER.x, global_names.SPAWNER.y))
         pass
     else:
         global_names.SCREEN.blit(anims.left_arrow,

@@ -4,6 +4,7 @@ class Monster:
         species = {"Bugbear": [3, 1, 1], "Hobgoglin": [2, 3, 1], "Runner": [1, 2, 3]}
         self.__x = None
         self.__y = None
+        self.point = 0
         self.__hp = species[name][0]
         self.__damage = species[name][1]
         self.__speed = species[name][2]
@@ -23,6 +24,14 @@ class Monster:
     @y.setter
     def y(self, y):
         self.__y = y
+
+    @property
+    def point(self):
+        return self.__point
+
+    @point.setter
+    def point(self, point):
+        self.__point = point
 
     @property
     def hp(self):

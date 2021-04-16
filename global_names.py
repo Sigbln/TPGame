@@ -1,5 +1,7 @@
 import anims
 
+import cell
+
 SCREENSIZE = (1080, 720)
 FPS = 30
 ORDINARY_START_POINT = (0, 0)
@@ -48,3 +50,10 @@ DICTIONARY_TO = {anims.cell: 1, anims.road: 2, anims.spawner: 3,
                  anims.castle: 4, anims.grass: 5}
 DICTIONARY_FROM = {1: anims.cell, 2: anims.road, 3: anims.spawner,
                    4: anims.castle, 5: anims.grass}
+
+
+#game process
+TIMER = 0
+SPAWNER = cell.Spawner(0, 0, 0)
+
+PATH = []

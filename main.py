@@ -1,12 +1,16 @@
 import pygame
 
 import map
+import game_module
 import global_names
 import graphic
 import saver
 
 graphic.create_window()
+
 saver.load()
+
+print(global_names.MAPS_COLLECTION[1])
 
 while global_names.RUN:
     graphic.set_fps(global_names.FPS)
@@ -16,5 +20,12 @@ while global_names.RUN:
     if global_names.EDITOR:
         graphic.key_check_editor()
         graphic.draw_window_editor()
+    if global_names.LEVELS:
+        graphic.key_check_levels()
+        graphic.draw_window_levels()
+
+    #game_module.search()
+
+saver.save()
 
 pygame.quit()

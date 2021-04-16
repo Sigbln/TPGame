@@ -1,9 +1,12 @@
 import pygame
 
 # загружаем текстуры
-markup = pygame.image.load("images/markup.jpg")
 menu_button_level = pygame.image.load("images/menunutton1.jpg")
 menu_button_editor = pygame.image.load("images/menunutton2.jpg")
+play_button = pygame.image.load("images/play_button.jpg")
+delete_button = pygame.image.load("images/delete_button.jpg")
+left_arrow = pygame.image.load("images/right_arrow.jpg")
+right_arrow = pygame.image.load("images/left_arrow.jpg")
 temp_bg = pygame.image.load("images/temp_bg.jpg")
 cell = pygame.image.load("images/cell.jpg")
 grass = pygame.image.load("images/grass.jpg")

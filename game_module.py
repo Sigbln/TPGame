@@ -1,33 +1,17 @@
 import collections
 import random
 import global_names
+import graphic
 import cell
 import monster
 
 def way_to_move():
-    rdl = [[3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-
+    #rdl = global_names.MAP.scheme
+    rdl = global_names.MAPS_COLLECTION[global_names.TEMP_ID]
     lab = []
 
-    n = 18
-    m = 27
+    n = global_names.MAP.width
+    m = global_names.MAP.length
 
     for i in range(n):
         stroka = []
@@ -45,16 +29,16 @@ def way_to_move():
                 global_names.SPAWNER.y = k
                 stroka.append(0)
             else:
-                stroka.append(rdl[k][i])
+                stroka.append(rdl[i][k])
         lab.append(stroka)
 
     finalout = voln(global_names.SPAWNER.x, global_names.SPAWNER.y, 1, n, m, lab)
     if lab[global_names.CASTLE.x][global_names.CASTLE.y] > 0:
-        path = way(global_names.SPAWNER.x, global_names.SPAWNER.y, global_names.CASTLE.x, global_names.CASTLE.y, finalout)
+        path = way(global_names.SPAWNER.y, global_names.SPAWNER.x, global_names.CASTLE.y, global_names.CASTLE.x, finalout)
         path = path[::-1]
         global_names.PATH = path
     else:
-        print("Error")
+        raise FileExistsError("Wrong way from spawner to castle")
 
 
 def voln(x, y, cur, n, m, lab):
@@ -75,45 +59,65 @@ def voln(x, y, cur, n, m, lab):
 
 
 def way(x1, y1, x2, y2, lab):
-    n = 18
-    m = 27
+    n = global_names.MAP.width
+    m = global_names.MAP.length
+
     path = [[x2, y2]]
     while (x1, y1) != (x2, y2):
         if x2 > 0 and lab[y2][x2 - 1] == lab[y2][x2] - 1:
             x2, y2 = x2 - 1, y2
-        elif x2 < n - 1 and lab[y2][x2 + 1] == lab[y2][x2] - 1:
+        elif x2 < m - 1 and lab[y2][x2 + 1] == lab[y2][x2] - 1:
             x2, y2 = x2 + 1, y2
         elif y2 > 0 and lab[y2 - 1][x2] == lab[y2][x2] - 1:
             x2, y2 = x2, y2 - 1
-        elif y2 < m - 1 and lab[y2 + 1][x2] == lab[y2][x2] - 1:
+        elif y2 < n - 1 and lab[y2 + 1][x2] == lab[y2][x2] - 1:
             x2, y2 = x2, y2 + 1
         path.append([x2, y2])
     return path
 
 def monsters_move(monster):
     if monster.point:
-        if global_names.PATH[monster.point + 1][0] - global_names.PATH[monster.point][0]:
-            if monster.x + monster.speed < 40 * global_names.PATH[monster.point]:
-                monster.x += monster.speed
+        if global_names.PATH[monster.point + 1][1] - global_names.PATH[monster.point][1]:
+            if global_names.PATH[monster.point + 1][1] > global_names.PATH[monster.point][1]:
+                if monster.x + monster.speed < 40:
+                    monster.x += monster.speed
+                else:
+                    monster.x = monster.speed - (40 - monster.x)
+                    monster.point += 1
+                    if monster.point == len(global_names.PATH) - 1:
+                        monster.finish()
             else:
-                monster.x = monster.speed - (40 - monster.x)
-                monster.point += 1
-                if monster.point == len(global_names.PATH):
-                    monster.finish()
-        else:
-            if monster.y + monster.speed < 40 * global_names.PATH[monster.point]:
-                monster.y += monster.speed
+                if monster.x - monster.speed > 0:
+                    monster.x -= monster.speed
+                else:
+                    monster.x = monster.speed + (40 - monster.x)
+                    monster.point += 1
+                    if monster.point == len(global_names.PATH) - 1:
+                        monster.finish()
+        elif global_names.PATH[monster.point + 1][0] - global_names.PATH[monster.point][0]:
+            if global_names.PATH[monster.point + 1][0] > global_names.PATH[monster.point][0]:
+                if monster.y + monster.speed < 40:
+                    monster.y += monster.speed
+                else:
+                    monster.y = monster.speed - (40 - monster.y)
+                    monster.point += 1
+                    if monster.point == len(global_names.PATH) - 1:
+                        monster.finish()
             else:
-                monster.y = monster.speed - (40 - monster.y)
-                monster.point += 1
-                if monster.point == len(global_names.PATH):
-                    monster.finish()
+                if monster.y + monster.speed > 0:
+                    monster.y -= monster.speed
+                else:
+                    monster.y = monster.speed + (40 - monster.y)
+                    monster.point += 1
+                    if monster.point == len(global_names.PATH) - 1:
+                        monster.finish()
 
     return monster
 
 def wave_generate():
     for i in range(0, global_names.SPAWNER.power):
-        global_names.MONSTERS.append(monster.Monster[random.randint(0, 2)])
+        unit = monster.Monster(global_names.MONSTERS_NAMES[random.randint(0, 2)])
+        global_names.MONSTERS.append(unit)
 
 def monsters_spawn():
     for i in global_names.MONSTERS:
@@ -123,16 +127,20 @@ def monsters_spawn():
 
 
 def game_process():
-    if not global_names.TIMER % 30:
-        monsters_spawn()
     if not (global_names.TIMER / 30 - len(global_names.MONSTERS) - global_names.WAVE_LONG) % 10:
         wave_generate()
+    if not global_names.TIMER % 30:
+        monsters_spawn()
+
 
     for unit in global_names.MONSTERS:
         monsters_move(unit)
 
     global_names.TIMER += 1
+    graphic.draw_window_levels()
     pass
 
 
-way = way_to_move()
+
+
+#way_to_move()

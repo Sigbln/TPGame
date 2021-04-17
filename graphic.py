@@ -1,6 +1,7 @@
 import pygame
 
 import anims
+import game_module
 import global_names
 import map
 import saver
@@ -14,6 +15,7 @@ def create_map():
         temp = []
         for j in range(global_names.MAP.length):
             temp.append(anims.cell)
+            #temp2.append(5)
         global_names.MAP.scheme.append(temp)
     if global_names.LEVELS:
         global_names.MAP.scheme = saver.convert()
@@ -140,6 +142,7 @@ def key_check_levels():
                 # кнопка начала игры
                 elif get_mouse_for_button(global_names.LEVELS_PLAY_POINTS[1]):
                     global_names.PLAY = True
+                    game_module.way_to_move()
                 # кнопка удаления карты
                 elif get_mouse_for_button(
                         global_names.LEVELS_DELETE_POINTS[1]):
@@ -151,9 +154,10 @@ def key_check_levels():
 def draw_window_levels():
     global_names.MAP.print()
     if global_names.PLAY:
-        global_names.SCREEN.blit(anims.monster, (
-            global_names.SPAWNER.x, global_names.SPAWNER.y))
-        pass
+        global_names.SCREEN.blit(anims.spawner, (
+            global_names.SPAWNER.y * 40, global_names.SPAWNER.x * 40))
+        for unit in global_names.MONSTERS:
+            global_names.SCREEN.blit(anims.monster, (unit.y + global_names.PATH[unit.point][0] * 40, unit.x + global_names.PATH[unit.point][1] * 40))
     else:
         global_names.SCREEN.blit(anims.left_arrow,
                                  global_names.LEVELS_ARROWS_POINTS[1])

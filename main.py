@@ -1,6 +1,7 @@
 import pygame
 
 import global_names
+import game_module
 import graphic
 import saver
 
@@ -19,11 +20,10 @@ while global_names.RUN:
         graphic.draw_window_editor()
     if global_names.LEVELS:
         if global_names.PLAY:
-            graphic.game_process()
+            game_module.game_process()
         graphic.key_check_levels()
-        global_names.draw_window_levels()
-
-    #game_module.search()
+        graphic.draw_window_levels()
+#print(global_names.MAP.scheme[])
 
 saver.save()
 

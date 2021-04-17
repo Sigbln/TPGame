@@ -1,9 +1,12 @@
+import global_names
+
+
 class Monster:
 
     def __init__(self, name):
         species = {"Bugbear": [3, 1, 1], "Hobgoglin": [2, 3, 1], "Runner": [1, 2, 3]}
-        self.__x = None
-        self.__y = None
+        self.__x = 0
+        self.__y = 0
         self.point = 0
         self.__hp = species[name][0]
         self.__damage = species[name][1]
@@ -70,4 +73,5 @@ class Monster:
         pass
 
     def finish(self):
+        global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
         pass

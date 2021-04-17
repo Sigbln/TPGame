@@ -54,8 +54,8 @@ DICTIONARY_FROM = {1: anims.cell, 2: anims.road, 3: anims.spawner,
 
 #game process
 TIMER = 0
-SPAWNER = cell.Spawner(0, 0, 0)
-CASTLE = cell.Castle(0, 0, 0)
+SPAWNER = cell.Spawner(0, 0, 10)
+CASTLE = cell.Castle(0, 0, 0, 0)
 MONSTERS = []
 PATH = []
 WAVE_LONG = 20

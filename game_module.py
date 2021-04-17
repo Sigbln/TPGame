@@ -1,12 +1,18 @@
-import collections
 import random
 import global_names
 import graphic
-import cell
+import monster
+from math import sqrt
+import random
+from math import sqrt
+
+import global_names
+import graphic
 import monster
 
+
 def way_to_move():
-    #rdl = global_names.MAP.scheme
+    # rdl = global_names.MAP.scheme
     rdl = global_names.MAPS_COLLECTION[global_names.TEMP_ID]
     lab = []
 
@@ -34,7 +40,8 @@ def way_to_move():
 
     finalout = voln(global_names.SPAWNER.x, global_names.SPAWNER.y, 1, n, m, lab)
     if lab[global_names.CASTLE.x][global_names.CASTLE.y] > 0:
-        path = way(global_names.SPAWNER.y, global_names.SPAWNER.x, global_names.CASTLE.y, global_names.CASTLE.x, finalout)
+        path = way(global_names.SPAWNER.y, global_names.SPAWNER.x, global_names.CASTLE.y, global_names.CASTLE.x,
+                   finalout)
         path = path[::-1]
         global_names.PATH = path
     else:
@@ -75,6 +82,7 @@ def way(x1, y1, x2, y2, lab):
         path.append([x2, y2])
     return path
 
+
 def monsters_move(monster):
     if monster.point:
         if global_names.PATH[monster.point + 1][1] - global_names.PATH[monster.point][1]:
@@ -114,15 +122,27 @@ def monsters_move(monster):
 
     return monster
 
+
 def wave_generate():
     for i in range(0, global_names.SPAWNER.power):
         unit = monster.Monster(global_names.MONSTERS_NAMES[random.randint(0, 2)])
         global_names.MONSTERS.append(unit)
 
+
 def monsters_spawn():
     for i in global_names.MONSTERS:
         if not i.point:
             i.point = 1
+            break
+
+
+def towers_fire(tower):
+    for monster in global_names.MONSTERS:
+        if sqrt((tower.x * 40 + 20 - (monster.x + global_names.PATH[monster.point][0] * 40)) ** 2 +
+                (tower.y * 40 + 20 - (monster.y + global_names.PATH[monster.point][1] * 40)) ** 2) <= tower.radius:
+            monster.hp -= tower.damage
+            if monster.hp <= 0:
+                monster.kill()
             break
 
 
@@ -132,15 +152,14 @@ def game_process():
     if not global_names.TIMER % 30:
         monsters_spawn()
 
-
     for unit in global_names.MONSTERS:
         monsters_move(unit)
 
+    for tower in global_names.TOWERS:
+        if not global_names.TIMER % ((global_names.TOWER_SPEED[-1] / tower.speed)*10):
+            towers_fire(tower)
+
     global_names.TIMER += 1
     graphic.draw_window_levels()
-    pass
 
-
-
-
-#way_to_move()
+# way_to_move()

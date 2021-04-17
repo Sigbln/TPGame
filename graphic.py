@@ -1,6 +1,7 @@
 import pygame
 
 import anims
+import cell
 import game_module
 import global_names
 import map
@@ -15,7 +16,7 @@ def create_map():
         temp = []
         for j in range(global_names.MAP.length):
             temp.append(anims.cell)
-            #temp2.append(5)
+            # temp2.append(5)
         global_names.MAP.scheme.append(temp)
     if global_names.LEVELS:
         global_names.MAP.scheme = saver.convert()
@@ -111,6 +112,8 @@ def draw_window_editor():
     pygame.display.update()
 
 
+
+
 def key_check_levels():
     for global_names.EVENT in pygame.event.get():
         if global_names.EVENT.type == pygame.QUIT:
@@ -122,6 +125,9 @@ def key_check_levels():
                     global_names.TEMP_CELL[0]] == anims.grass:
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.tower
+                    global_names.TOWERS.append(cell.Tower(global_names.TEMP_CELL[0], global_names.TEMP_CELL[1],
+                                                          global_names.TOWER_POWER[0], global_names.TOWER_SPEED[0],
+                                                          global_names.TOWER_RADIUS[0]))
                 pass
             else:
                 # стрелка влево
@@ -157,7 +163,8 @@ def draw_window_levels():
         global_names.SCREEN.blit(anims.spawner, (
             global_names.SPAWNER.y * 40, global_names.SPAWNER.x * 40))
         for unit in global_names.MONSTERS:
-            global_names.SCREEN.blit(anims.monster, (unit.y + global_names.PATH[unit.point][0] * 40, unit.x + global_names.PATH[unit.point][1] * 40))
+            global_names.SCREEN.blit(anims.monster, (
+            unit.y + global_names.PATH[unit.point][0] * 40, unit.x + global_names.PATH[unit.point][1] * 40))
     else:
         global_names.SCREEN.blit(anims.left_arrow,
                                  global_names.LEVELS_ARROWS_POINTS[1])

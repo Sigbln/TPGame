@@ -4,13 +4,15 @@ import global_names
 class Monster:
 
     def __init__(self, name):
-        species = {"Bugbear": [3, 1, 1], "Hobgoglin": [2, 3, 1], "Runner": [1, 2, 3]}
+        species = {"Bugbear": [3, 1, 1, 1], "Hobgoglin": [2, 3, 1, 1], "Runner": [1, 2, 3, 1]}
+        self.__name = name
         self.__x = 0
         self.__y = 0
         self.point = 0
         self.__hp = species[name][0]
         self.__damage = species[name][1]
         self.__speed = species[name][2]
+        self.__cost = species[name][3]
 
     @property
     def x(self):
@@ -60,6 +62,22 @@ class Monster:
     def speed(self, speed):
         self.__speed = speed
 
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        self.__name = name
+
+    @property
+    def cost(self):
+        return self.__cost
+
+    @cost.setter
+    def cost(self, cost):
+        self.__cost = cost
+
     def create(self):
         pass
 
@@ -70,8 +88,9 @@ class Monster:
         pass
 
     def kill(self):
-        pass
+        global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
+        global_names.CASTLE.money += self.cost
 
     def finish(self):
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
-        pass
+        global_names.CASTLE.hp -= self.damage

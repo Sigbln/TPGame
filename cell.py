@@ -116,10 +116,12 @@ class Castle(Cell):
 
 
 class Tower(Cell):
-    def __init__(self, x, y, damage, speed):
-        super().__init__(x, y)
+    def __init__(self, x, y, damage, speed, radius):
+        self.__x = x
+        self.__y = y
         self.__damage = damage
         self.__speed = speed
+        self.__radius = radius
 
     @property
     def x(self):
@@ -152,6 +154,14 @@ class Tower(Cell):
     @speed.setter
     def speed(self, speed):
         self.__speed = speed
+
+    @property
+    def radius(self):
+        return self.__radius
+
+    @radius.setter
+    def radius(self, radius):
+        self.__radius = radius
 
     def create(self):
         pass

@@ -1,26 +1,23 @@
 import pygame
 
-import saver
-import map
+import hud
 import anims
+import cell
+import game_module
 import global_names
+import map
+import saver
 
 pygame.init()
 
-
-def game_process():
-    if not global_names.TIMER % 30:
-        spawn_unit_of_wave()
-
-    global_names.TIMER += 1
-    pass
 
 def create_map():
     global_names.MAP = map.Map()
     for i in range(global_names.MAP.width):
         temp = []
         for j in range(global_names.MAP.length):
-            temp.append(anims.cell)
+            temp.append(anims.grass)
+            # temp2.append(5)
         global_names.MAP.scheme.append(temp)
     if global_names.LEVELS:
         global_names.MAP.scheme = saver.convert()
@@ -125,8 +122,27 @@ def key_check_levels():
                 get_mouse_for_cell()
                 if global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                     global_names.TEMP_CELL[0]] == anims.grass:
+                    if global_names.CASTLE.money >= global_names.TOWER_CREATING_COST:
+                        global_names.MAP.scheme[global_names.TEMP_CELL[1]][
+                            global_names.TEMP_CELL[0]] = anims.tower
+                        global_names.TOWERS.append(
+                            cell.Tower(global_names.TEMP_CELL[0],
+                                       global_names.TEMP_CELL[1],
+                                       global_names.TOWER_POWER[0],
+                                       global_names.TOWER_SPEED[0],
+                                       global_names.TOWER_RADIUS[0]))
+                        global_names.CASTLE.money -= global_names.TOWER_CREATING_COST
+                    else:
+                        print("Not enough money")
+                elif global_names.MAP.scheme[global_names.TEMP_CELL[1]][
+                    global_names.TEMP_CELL[0]] == anims.tower:
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
-                        global_names.TEMP_CELL[0]] = anims.tower
+                        global_names.TEMP_CELL[0]] = anims.grass
+                    for tower in global_names.TOWERS:
+                        if tower.x == global_names.TEMP_CELL[0] and tower.y == \
+                                global_names.TEMP_CELL[1]:
+                            global_names.TOWERS.remove(tower)
+                            global_names.CASTLE.money += global_names.TOWER_REMOVING_COST
                 pass
             else:
                 # стрелка влево
@@ -147,6 +163,7 @@ def key_check_levels():
                 # кнопка начала игры
                 elif get_mouse_for_button(global_names.LEVELS_PLAY_POINTS[1]):
                     global_names.PLAY = True
+                    game_module.way_to_move()
                 # кнопка удаления карты
                 elif get_mouse_for_button(
                         global_names.LEVELS_DELETE_POINTS[1]):
@@ -158,9 +175,24 @@ def key_check_levels():
 def draw_window_levels():
     global_names.MAP.print()
     if global_names.PLAY:
-        global_names.SCREEN.blit(anims.monster, (
-            global_names.SPAWNER.x, global_names.SPAWNER.y))
-        pass
+        for unit in global_names.MONSTERS:
+            if not unit.injured:
+                global_names.SCREEN.blit(anims.monster, (
+                    unit.y + global_names.PATH[unit.point][0] * 40,
+                    unit.x + global_names.PATH[unit.point][1] * 40))
+            else:
+                global_names.SCREEN.blit(anims.damaged_monster, (
+                    unit.y + global_names.PATH[unit.point][0] * 40,
+                    unit.x + global_names.PATH[unit.point][1] * 40))
+                unit.injured = False
+        global_names.SCREEN.blit(anims.spawner, (
+            global_names.SPAWNER.y * 40, global_names.SPAWNER.x * 40))
+        global_names.SCREEN.blit(anims.game_hud,
+                                 global_names.GAME_HUD_START_POINT)
+        hud.update()
+        global_names.SCREEN.blit(hud.hp, global_names.HP_POINT)
+        global_names.SCREEN.blit(hud.coin, global_names.COIN_POINT)
+        global_names.SCREEN.blit(hud.wave, global_names.WAVE_POINT)
     else:
         global_names.SCREEN.blit(anims.left_arrow,
                                  global_names.LEVELS_ARROWS_POINTS[1])

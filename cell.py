@@ -1,4 +1,9 @@
 from abc import ABCMeta
+from math import sqrt
+
+import global_names
+import monster
+import random
 
 class Cell(metaclass=ABCMeta):
     def __init__(self, x, y):
@@ -60,7 +65,11 @@ class Spawner(Cell):
         self.__power = power
 
     def spawn(self):
-        pass
+        for i in range(0, self.power):
+            unit = monster.Monster(global_names.MONSTERS_NAMES[random.randint(0, 2)])
+            unit.hp *= global_names.WAVE_NUMBER
+            unit.cost *= global_names.WAVE_NUMBER
+            global_names.MONSTERS.append(unit)
 
 
 class Castle(Cell):
@@ -112,14 +121,24 @@ class Castle(Cell):
         pass
 
     def destroy(self):
-        pass
-
+        global_names.MONSTERS.clear()
+        global_names.TOWERS.clear()
+        global_names.PATH.clear()
+        global_names.PLAY = False
+        global_names.LEVELS = False
+        global_names.MENU = True
+        global_names.TIMER = -1
+        global_names.SPAWNER = Spawner(0, 0, 10)
+        global_names.CASTLE = Castle(0, 0, 100, 5)
+        global_names.WAVE_NUMBER = 1
 
 class Tower(Cell):
-    def __init__(self, x, y, damage, speed):
-        super().__init__(x, y)
+    def __init__(self, x, y, damage, speed, radius):
+        self.__x = x
+        self.__y = y
         self.__damage = damage
         self.__speed = speed
+        self.__radius = radius
 
     @property
     def x(self):
@@ -152,6 +171,24 @@ class Tower(Cell):
     @speed.setter
     def speed(self, speed):
         self.__speed = speed
+
+    @property
+    def radius(self):
+        return self.__radius
+
+    @radius.setter
+    def radius(self, radius):
+        self.__radius = radius
+
+    def fire(self):
+        for monster in global_names.MONSTERS:
+            if sqrt((self.x * 40 + 20 - (monster.x + global_names.PATH[monster.point][0] * 40)) ** 2 +
+                    (self.y * 40 + 20 - (monster.y + global_names.PATH[monster.point][1] * 40)) ** 2) <= self.radius:
+                monster.hp -= self.damage
+                monster.injured = True
+                if monster.hp <= 0:
+                    monster.kill()
+                break
 
     def create(self):
         pass

@@ -1,42 +1,32 @@
-import random
 import global_names
 import graphic
-import monster
-from math import sqrt
-import random
-from math import sqrt
-
-import global_names
-import graphic
-import monster
 
 
 def way_to_move():
-    # rdl = global_names.MAP.scheme
-    rdl = global_names.MAPS_COLLECTION[global_names.TEMP_ID]
+    special_map = global_names.MAPS_COLLECTION[global_names.TEMP_ID]
     lab = []
 
     n = global_names.MAP.width
     m = global_names.MAP.length
 
     for i in range(n):
-        stroka = []
-        for k in range(len(rdl[i])):
-            if rdl[i][k] == 1 or rdl[i][k] == 5:
-                stroka.append(-1)
-            elif rdl[i][k] == 2:
-                stroka.append(0)
-            elif rdl[i][k] == 4:
+        line = []
+        for k in range(len(special_map[i])):
+            if special_map[i][k] == 1 or special_map[i][k] == 5:
+                line.append(-1)
+            elif special_map[i][k] == 2:
+                line.append(0)
+            elif special_map[i][k] == 4:
                 global_names.CASTLE.x = i
                 global_names.CASTLE.y = k
-                stroka.append(0)
-            elif rdl[i][k] == 3:
+                line.append(0)
+            elif special_map[i][k] == 3:
                 global_names.SPAWNER.x = i
                 global_names.SPAWNER.y = k
-                stroka.append(0)
+                line.append(0)
             else:
-                stroka.append(rdl[i][k])
-        lab.append(stroka)
+                line.append(special_map[i][k])
+        lab.append(line)
 
     finalout = voln(global_names.SPAWNER.x, global_names.SPAWNER.y, 1, n, m, lab)
     if lab[global_names.CASTLE.x][global_names.CASTLE.y] > 0:
@@ -83,83 +73,25 @@ def way(x1, y1, x2, y2, lab):
     return path
 
 
-def monsters_move(monster):
-    if monster.point:
-        if global_names.PATH[monster.point + 1][1] - global_names.PATH[monster.point][1]:
-            if global_names.PATH[monster.point + 1][1] > global_names.PATH[monster.point][1]:
-                if monster.x + monster.speed < 40:
-                    monster.x += monster.speed
-                else:
-                    monster.x = monster.speed - (40 - monster.x)
-                    monster.point += 1
-                    if monster.point == len(global_names.PATH) - 1:
-                        monster.finish()
-            else:
-                if monster.x - monster.speed > 0:
-                    monster.x -= monster.speed
-                else:
-                    monster.x = monster.speed + (40 - monster.x)
-                    monster.point += 1
-                    if monster.point == len(global_names.PATH) - 1:
-                        monster.finish()
-        elif global_names.PATH[monster.point + 1][0] - global_names.PATH[monster.point][0]:
-            if global_names.PATH[monster.point + 1][0] > global_names.PATH[monster.point][0]:
-                if monster.y + monster.speed < 40:
-                    monster.y += monster.speed
-                else:
-                    monster.y = monster.speed - (40 - monster.y)
-                    monster.point += 1
-                    if monster.point == len(global_names.PATH) - 1:
-                        monster.finish()
-            else:
-                if monster.y + monster.speed > 0:
-                    monster.y -= monster.speed
-                else:
-                    monster.y = monster.speed + (40 - monster.y)
-                    monster.point += 1
-                    if monster.point == len(global_names.PATH) - 1:
-                        monster.finish()
-
-    return monster
-
-
-def wave_generate():
-    for i in range(0, global_names.SPAWNER.power):
-        unit = monster.Monster(global_names.MONSTERS_NAMES[random.randint(0, 2)])
-        global_names.MONSTERS.append(unit)
-
-
 def monsters_spawn():
-    for i in global_names.MONSTERS:
-        if not i.point:
-            i.point = 1
-            break
-
-
-def towers_fire(tower):
-    for monster in global_names.MONSTERS:
-        if sqrt((tower.x * 40 + 20 - (monster.x + global_names.PATH[monster.point][0] * 40)) ** 2 +
-                (tower.y * 40 + 20 - (monster.y + global_names.PATH[monster.point][1] * 40)) ** 2) <= tower.radius:
-            monster.hp -= tower.damage
-            if monster.hp <= 0:
-                monster.kill()
+    for unit in global_names.MONSTERS:
+        if not unit.point:
+            unit.point = 1
             break
 
 
 def game_process():
     if not (global_names.TIMER / 30 - len(global_names.MONSTERS) - global_names.WAVE_LONG) % 10:
-        wave_generate()
+        global_names.SPAWNER.spawn()
     if not global_names.TIMER % 30:
         monsters_spawn()
 
     for unit in global_names.MONSTERS:
-        monsters_move(unit)
+        unit.move()
 
     for tower in global_names.TOWERS:
-        if not global_names.TIMER % ((global_names.TOWER_SPEED[-1] / tower.speed)*10):
-            towers_fire(tower)
+        if not global_names.TIMER % ((global_names.TOWER_SPEED[-1] / tower.speed) * 10):
+            tower.fire()
 
     global_names.TIMER += 1
     graphic.draw_window_levels()
-
-# way_to_move()

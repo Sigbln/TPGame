@@ -78,11 +78,51 @@ class Monster:
     def cost(self, cost):
         self.__cost = cost
 
-    def create(self):
-        pass
+    """def spawn(self):
+        for i in global_names.MONSTERS:
+            if not i.point:
+                i.point = 1
+                break
+    """
 
     def move(self):
-        pass
+        if self.point:
+            if global_names.PATH[self.point + 1][1] - global_names.PATH[self.point][1]:
+                if global_names.PATH[self.point + 1][1] > global_names.PATH[self.point][1]:
+                    if self.x + self.speed < 40:
+                        self.x += self.speed
+                    else:
+                        self.x = self.speed - (40 - self.x)
+                        self.point += 1
+                        if self.point >= len(global_names.PATH) - 2:
+                            self.finish()
+                else:
+                    if 40 + (self.x - self.speed) >= 0:
+                        self.x -= self.speed
+                    else:
+                        self.x = (-1 * (self.x - self.speed) + (self.x - self.speed)) / 2
+                        self.point += 1
+                        if self.point >= len(global_names.PATH) - 2:
+                            self.finish()
+            elif global_names.PATH[self.point + 1][0] - global_names.PATH[self.point][0]:
+                if global_names.PATH[self.point + 1][0] > global_names.PATH[self.point][0]:
+                    if self.y + self.speed < 40:
+                        self.y += self.speed
+                    else:
+                        self.y = self.speed - (40 - self.y)
+                        self.point += 1
+                        if self.point >= len(global_names.PATH) - 2:
+                            self.finish()
+                else:
+                    if 40 + (self.y - self.speed) >= 0:
+                        self.y -= self.speed
+                    else:
+                        self.y = (-1 * (self.y - self.speed) + (self.y - self.speed)) / 2
+                        self.point += 1
+                        if self.point >= len(global_names.PATH) - 2:
+                            self.finish()
+
+        return self
 
     def injure(self):
         pass
@@ -94,3 +134,4 @@ class Monster:
     def finish(self):
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
         global_names.CASTLE.hp -= self.damage
+        print("DEATH!")

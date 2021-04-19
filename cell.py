@@ -1,44 +1,15 @@
+import random
 from abc import ABCMeta
 from math import sqrt
 
 import global_names
 import monster
-import random
+
 
 class Cell(metaclass=ABCMeta):
     def __init__(self, x, y):
         self.__x = x
         self.__y = y
-
-    @property
-    def x(self):
-        pass
-
-    @x.setter
-    def x(self, x):
-        pass
-
-    @property
-    def y(self):
-        pass
-
-    @y.setter
-    def y(self, y):
-        pass
-
-
-class Spawner(Cell):
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if not Spawner._instance:
-            Spawner._instance = super(Spawner, cls).__new__(cls)
-        return Spawner._instance
-
-    def __init__(self, x, y, power):
-        self.__x = x
-        self.__y = y
-        self.__power = power
 
     @property
     def x(self):
@@ -55,6 +26,19 @@ class Spawner(Cell):
     @y.setter
     def y(self, y):
         self.__y = y
+
+
+class Spawner(Cell):
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not Spawner._instance:
+            Spawner._instance = super(Spawner, cls).__new__(cls)
+        return Spawner._instance
+
+    def __init__(self, x, y, power):
+        super().__init__(x, y)
+        self.__power = power
 
     @property
     def power(self):
@@ -84,22 +68,6 @@ class Castle(Cell):
         super().__init__(x, y)
         self.__money = money
         self.__hp = hp
-
-    @property
-    def x(self):
-        return self.__x
-
-    @x.setter
-    def x(self, x):
-        self.__x = x
-
-    @property
-    def y(self):
-        return self.__y
-
-    @y.setter
-    def y(self, y):
-        self.__y = y
 
     @property
     def money(self):
@@ -132,29 +100,13 @@ class Castle(Cell):
         global_names.CASTLE = Castle(0, 0, 100, 5)
         global_names.WAVE_NUMBER = 1
 
+
 class Tower(Cell):
     def __init__(self, x, y, damage, speed, radius):
-        self.__x = x
-        self.__y = y
+        super().__init__(x, y)
         self.__damage = damage
         self.__speed = speed
         self.__radius = radius
-
-    @property
-    def x(self):
-        return self.__x
-
-    @x.setter
-    def x(self, x):
-        self.__x = x
-
-    @property
-    def y(self):
-        return self.__y
-
-    @y.setter
-    def y(self, y):
-        self.__y = y
 
     @property
     def damage(self):

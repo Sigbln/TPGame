@@ -1,10 +1,12 @@
-class Map():
-    maxLength = 100
-    maxWidth = 100
+import pygame
 
-    def __init__(self, length, width):
-        self.__length = length
-        self.__width = width
+import global_names
+
+
+class Map():
+    def __init__(self):
+        self.__length = 27
+        self.__width = 18
         self.__scheme = []
 
     @property
@@ -38,47 +40,14 @@ class Map():
         self.__scheme = scheme
 
     def create(self):
-        print("Введите количество клеток в длину:")
-        length = int(input())
-        self.__length = length
-
-        print("Введите количество клеток в ширину:")
-        width = int(input())
-        self.__width = width
-
-        print(
-            "Составьте карту по следующему принципу: карта -- это массив из символов, где . - обычная клетка,"
-            " # - спавнер, % - замок, * - башня, стрелочки(_) - путь")
-        for i in range(self.__width):
-            self.__scheme.append(input())
-
-        menu_output = """
-        Хотите ли вы сохранить карту?
-        1. Да,
-        2. Нет.
-        """
-        print(menu_output)
-        option = int(input())
-        while not isinstance(option, int) or option < 1 or option > 2:
-            print("Неверный ввод.")
-            print("Попробуйте ещё раз.")
-            option = int(input())
-
-        if option == 1:
-            print("Введите название файла:")
-            name = input()
-            file = open(name + ".txt", 'w')
-            for i in self.__scheme:
-                file.write(i + '\n')
-            file.close()
+        pass
 
     def open(self):
-        print("Введите название файла:")
-        name = input()
-        file = open(name + ".txt", 'r')
-        for line in file:
-            self.__scheme.append(line)
+        pass
 
     def print(self):
-        for row in self.__scheme:
-            print(row)
+        for temp_y in range(self.__width):
+            for temp_x in range(self.__length):
+                global_names.SCREEN.blit(
+                    global_names.MAP.scheme[temp_y][temp_x],
+                    (temp_x * 40, temp_y * 40))

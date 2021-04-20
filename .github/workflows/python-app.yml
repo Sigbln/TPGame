@@ -7,7 +7,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ checkpoint_1 ]
+    branches: [ checkpoint_1, master, dev ]
 
 jobs:
   build:

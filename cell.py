@@ -50,7 +50,8 @@ class Spawner(Cell):
 
     def spawn(self):
         for i in range(0, self.power):
-            unit = monster.Monster(global_names.MONSTERS_NAMES[random.randint(0, 2)])
+            unit = monster.Monster(
+                global_names.MONSTERS_NAMES[random.randint(0, 2)])
             unit.hp *= global_names.WAVE_NUMBER
             unit.cost *= global_names.WAVE_NUMBER
             global_names.MONSTERS.append(unit)
@@ -84,9 +85,6 @@ class Castle(Cell):
     @hp.setter
     def hp(self, hp):
         self.__hp = hp
-
-    def losehp(self):
-        pass
 
     def destroy(self):
         global_names.MONSTERS.clear()
@@ -134,19 +132,14 @@ class Tower(Cell):
 
     def fire(self):
         for monster in global_names.MONSTERS:
-            if sqrt((self.x * 40 + 20 - (monster.x + global_names.PATH[monster.point][0] * 40)) ** 2 +
-                    (self.y * 40 + 20 - (monster.y + global_names.PATH[monster.point][1] * 40)) ** 2) <= self.radius:
+            if sqrt((self.x * 40 + 20 - (
+                    monster.x + global_names.PATH[monster.point][
+                0] * 40)) ** 2 +
+                    (self.y * 40 + 20 - (
+                            monster.y + global_names.PATH[monster.point][
+                        1] * 40)) ** 2) <= self.radius:
                 monster.hp -= self.damage
                 monster.injured = True
                 if monster.hp <= 0:
                     monster.kill()
                 break
-
-    def create(self):
-        pass
-
-    def update(self):
-        pass
-
-    def destroy(self):
-        pass

@@ -80,13 +80,6 @@ class Monster:
     def cost(self, cost):
         self.__cost = cost
 
-    """def spawn(self):
-        for i in global_names.MONSTERS:
-            if not i.point:
-                i.point = 1
-                break
-    """
-
     def move(self):
         if self.point:
             if global_names.PATH[self.point + 1][1] - \
@@ -131,9 +124,6 @@ class Monster:
                             self.finish()
 
         return self
-
-    def injure(self):
-        pass
 
     def kill(self):
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))

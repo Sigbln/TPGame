@@ -1,9 +1,7 @@
-import pygame
-
 import global_names
 
 
-class Map():
+class Map:
     def __init__(self):
         self.__length = 27
         self.__width = 18
@@ -38,12 +36,6 @@ class Map():
     @scheme.setter
     def scheme(self, scheme):
         self.__scheme = scheme
-
-    def create(self):
-        pass
-
-    def open(self):
-        pass
 
     def print(self):
         for temp_y in range(self.__width):

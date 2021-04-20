@@ -184,7 +184,7 @@ def draw_window_levels():
                 global_names.SCREEN.blit(anims.damaged_monster, (
                     unit.y + global_names.PATH[unit.point][0] * 40,
                     unit.x + global_names.PATH[unit.point][1] * 40))
-                unit.injured = False
+
         global_names.SCREEN.blit(anims.spawner, (
             global_names.SPAWNER.y * 40, global_names.SPAWNER.x * 40))
         global_names.SCREEN.blit(anims.game_hud,

@@ -3,7 +3,7 @@ import pygame
 import global_names
 
 
-class Map:
+class Map():
     def __init__(self):
         self.__length = 27
         self.__width = 18
@@ -46,9 +46,6 @@ class Map:
         pass
 
     def print(self):
-        """
-        Выводит на экран карту
-        """
         for temp_y in range(self.__width):
             for temp_x in range(self.__length):
                 global_names.SCREEN.blit(

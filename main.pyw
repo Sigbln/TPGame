@@ -9,7 +9,6 @@ graphic.create_window()
 
 saver.load()
 
-
 while global_names.RUN:
     graphic.set_fps(global_names.FPS)
     if global_names.MENU:

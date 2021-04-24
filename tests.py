@@ -1,6 +1,5 @@
 from abc import ABCMeta
 
-
 class Cell(metaclass=ABCMeta):
     def __init__(self, x, y):
         self.__x = x
@@ -52,7 +51,6 @@ class Castle(Cell):
     def hp(self, hp):
         self.__hp = hp
 
-
 def Testing_System():
     castle1 = Castle(0, 0, 0, 0)
     castle2 = Castle(1, 1, 1, 1)
@@ -61,6 +59,5 @@ def Testing_System():
     print("Проверка на равенство объектов:", type(castle1) == type(castle2))
     print("Проверка характеристик первого объекта:", castle1.x, castle1.y, castle1.hp, castle1.money)
     print("Проверка характеристик второго объекта:", castle2.x, castle2.y, castle2.hp, castle2.money)
-
 
 Testing_System()

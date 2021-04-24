@@ -8,6 +8,8 @@ HP_POINT = (950, 607)
 COIN_POINT = (1010, 650)
 WAVE_POINT = (1000, 690)
 
+
+
 SCREENSIZE = (1080, 720)
 FPS = 30
 ORDINARY_START_POINT = (0, 0)
@@ -47,9 +49,13 @@ CELL_MENU = False
 PLAY = False
 SAVE = False
 
+
+
 DAMAGED_MONSTER = False
 DAMAGED_X = None
 DAMAGED_Y = None
+
+
 
 MAP = None
 
@@ -62,7 +68,8 @@ DICTIONARY_TO = {anims.grass: 1, anims.road: 2, anims.spawner: 3,
 DICTIONARY_FROM = {1: anims.grass, 2: anims.road, 3: anims.spawner,
                    4: anims.castle, 5: anims.grass}
 
-# game process
+
+#game process
 TIMER = 0
 SPAWNER = cell.Spawner(0, 0, 10)
 CASTLE = cell.Castle(0, 0, 100, 5)
@@ -70,7 +77,7 @@ MONSTERS = []
 PATH = []
 WAVE_LONG = 20
 MONSTERS_NAMES = ["Bugbear", "Hobgoglin", "Runner"]
-MONSTERS_COST = {"Bugbear": 1, "Hobgoglin": 1, "Runner": 1}
+MONSTERS_COST = {"Bugbear" : 1, "Hobgoglin" : 1, "Runner" : 1}
 TOWERS = []
 TOWER_POWER = [2]
 TOWER_SPEED = [1]

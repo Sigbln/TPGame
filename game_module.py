@@ -3,6 +3,9 @@ import graphic
 
 
 def way_to_move():
+    """
+    Создает карту пути по которому двигаются монстры
+    """
     special_map = global_names.MAPS_COLLECTION[global_names.TEMP_ID]
     lab = []
 
@@ -39,6 +42,16 @@ def way_to_move():
 
 
 def voln(x, y, cur, n, m, lab):
+    """
+    Заполняет вспомогательный массив расстояниями от начальной клетки
+    :param x: положение текущей клетки
+    :param y: положение тукущей клетки
+    :param cur: текущее значение клетки
+    :param n: ширина поля
+    :param m: длина поля
+    :param lab: провежуточный массив растояний
+    :return: заполненный расстояниями массив
+    """
     lab[x][y] = cur
     if y + 1 < m:
         if lab[x][y + 1] == 0 or (lab[x][y + 1] != -1 and lab[x][y + 1] > cur + 1):
@@ -56,6 +69,15 @@ def voln(x, y, cur, n, m, lab):
 
 
 def way(x1, y1, x2, y2, lab):
+    """
+    Поиск пути в массиве растояний
+    :param x1: начало пути
+    :param y1: начало пути
+    :param x2: конец пути
+    :param y2: конец пути
+    :param lab: массив расстояний
+    :return: путь
+    """
     n = global_names.MAP.width
     m = global_names.MAP.length
 
@@ -74,6 +96,9 @@ def way(x1, y1, x2, y2, lab):
 
 
 def monsters_spawn():
+    """
+    Создает монстра на карте
+    """
     for unit in global_names.MONSTERS:
         if not unit.point:
             unit.point = 1
@@ -81,6 +106,9 @@ def monsters_spawn():
 
 
 def game_process():
+    """
+    Игровой процесс
+    """
     if not (global_names.TIMER / 30 - len(global_names.MONSTERS) - global_names.WAVE_LONG) % 10:
         global_names.SPAWNER.spawn()
         global_names.WAVE_NUMBER += 1

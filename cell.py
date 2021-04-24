@@ -88,9 +88,6 @@ class Castle(Cell):
     def hp(self, hp):
         self.__hp = hp
 
-    def losehp(self):
-        pass
-
     def destroy(self):
         """
         Окончание игры, в случае если hp опустиллось до 0
@@ -150,12 +147,3 @@ class Tower(Cell):
                 if monster.hp <= 0:
                     monster.kill()
                 break
-
-    def create(self):
-        pass
-
-    def update(self):
-        pass
-
-    def destroy(self):
-        pass

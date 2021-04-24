@@ -161,8 +161,6 @@ def key_check_levels():
                                        global_names.TOWER_SPEED[0],
                                        global_names.TOWER_RADIUS[0]))
                         global_names.CASTLE.money -= global_names.TOWER_CREATING_COST
-                    else:
-                        print("Not enough money")
                 elif global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                     global_names.TEMP_CELL[0]] == anims.tower:
                     # убирает башню если по ней был произведен клик мышкой

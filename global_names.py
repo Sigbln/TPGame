@@ -47,9 +47,6 @@ CELL_MENU = False
 PLAY = False
 SAVE = False
 
-DAMAGED_MONSTER = False
-DAMAGED_X = None
-DAMAGED_Y = None
 
 MAP = None
 

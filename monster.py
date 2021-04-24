@@ -80,14 +80,10 @@ class Monster:
     def cost(self, cost):
         self.__cost = cost
 
-    """def spawn(self):
-        for i in global_names.MONSTERS:
-            if not i.point:
-                i.point = 1
-                break
-    """
-
     def move(self):
+        """
+        Перемещает монстра в соответствии  с его скоростью
+        """
         if self.point:
             if global_names.PATH[self.point + 1][1] - \
                     global_names.PATH[self.point][1]:
@@ -132,14 +128,17 @@ class Monster:
 
         return self
 
-    def injure(self):
-        pass
-
     def kill(self):
+        """
+        Убивает монстра
+        """
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
         global_names.CASTLE.money += self.cost
 
     def finish(self):
+        """
+        Запускается если монстр дошел до замка
+        """
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
         global_names.CASTLE.hp -= self.damage
         if global_names.CASTLE.hp <= global_names.EMPTY:

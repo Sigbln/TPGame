@@ -139,11 +139,11 @@ class Tower(Cell):
         """
         Наносит урон монстрам в радиусе атаки башни
         """
-        for monster in global_names.MONSTERS:
-            if sqrt((self.x * 40 + 20 - (monster.x + global_names.PATH[monster.point][0] * 40)) ** 2 +
-                    (self.y * 40 + 20 - (monster.y + global_names.PATH[monster.point][1] * 40)) ** 2) <= self.radius:
-                monster.hp -= self.damage
-                monster.injured = True
-                if monster.hp <= 0:
-                    monster.kill()
+        for monsters in global_names.MONSTERS:
+            if sqrt((self.x * 40 + 20 - (monsters.x + global_names.PATH[monsters.point][0] * 40)) ** 2 +
+                    (self.y * 40 + 20 - (monsters.y + global_names.PATH[monsters.point][1] * 40)) ** 2) <= self.radius:
+                monsters.hp -= self.damage
+                monsters.injured = True
+                if monsters.hp <= 0:
+                    monsters.kill()
                 break

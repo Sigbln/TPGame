@@ -98,7 +98,7 @@ def key_check_editor():
     for global_names.EVENT in pygame.event.get():
         if global_names.EVENT.type == pygame.QUIT:
             global_names.RUN = False
-        if global_names.EVENT.type == pygame.MOUSEBUTTONDOWN:
+        elif global_names.EVENT.type == pygame.MOUSEBUTTONDOWN:
             # менюшка с выбором клеток для карты
             if global_names.CELL_MENU:
                 # земля
@@ -149,7 +149,7 @@ def key_check_levels():
             if global_names.PLAY:
                 get_mouse_for_cell()
                 if global_names.MAP.scheme[global_names.TEMP_CELL[1]][
-                    global_names.TEMP_CELL[0]] == anims.grass:
+                   global_names.TEMP_CELL[0]] == anims.grass:
                     # ставит башню там где был произведен клик мышкой
                     if global_names.CASTLE.money >= global_names.TOWER_CREATING_COST:
                         global_names.MAP.scheme[global_names.TEMP_CELL[1]][
@@ -162,7 +162,7 @@ def key_check_levels():
                                        global_names.TOWER_RADIUS[0]))
                         global_names.CASTLE.money -= global_names.TOWER_CREATING_COST
                 elif global_names.MAP.scheme[global_names.TEMP_CELL[1]][
-                    global_names.TEMP_CELL[0]] == anims.tower:
+                     global_names.TEMP_CELL[0]] == anims.tower:
                     # убирает башню если по ней был произведен клик мышкой
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.grass

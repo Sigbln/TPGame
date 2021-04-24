@@ -84,47 +84,47 @@ class Monster:
         """
         Перемещает монстра в соответствии  с его скоростью
         """
-        if self.point:
-            if global_names.PATH[self.point + 1][1] - \
+
+        if global_names.PATH[self.point + 1][1] - \
+                global_names.PATH[self.point][1]:
+            if global_names.PATH[self.point + 1][1] > \
                     global_names.PATH[self.point][1]:
-                if global_names.PATH[self.point + 1][1] > \
-                        global_names.PATH[self.point][1]:
-                    if self.x + self.speed < 40:
-                        self.x += self.speed
-                    else:
-                        self.x = self.speed - (40 - self.x)
-                        self.point += 1
-                        if self.point >= len(global_names.PATH) - 2:
-                            self.finish()
+                if self.x + self.speed < 40:
+                    self.x += self.speed
                 else:
-                    if 40 + (self.x - self.speed) >= 0:
-                        self.x -= self.speed
-                    else:
-                        self.x = (-1 * (self.x - self.speed) + (
-                                self.x - self.speed)) / 2
-                        self.point += 1
-                        if self.point >= len(global_names.PATH) - 2:
-                            self.finish()
-            elif global_names.PATH[self.point + 1][0] - \
+                    self.x = self.speed - (40 - self.x)
+                    self.point += 1
+                    if self.point >= len(global_names.PATH) - 2:
+                        self.finish()
+            else:
+                if 40 + (self.x - self.speed) >= 0:
+                    self.x -= self.speed
+                else:
+                    self.x = (-1 * (self.x - self.speed) + (
+                            self.x - self.speed)) / 2
+                    self.point += 1
+                    if self.point >= len(global_names.PATH) - 2:
+                        self.finish()
+        elif global_names.PATH[self.point + 1][0] - \
+                global_names.PATH[self.point][0]:
+            if global_names.PATH[self.point + 1][0] > \
                     global_names.PATH[self.point][0]:
-                if global_names.PATH[self.point + 1][0] > \
-                        global_names.PATH[self.point][0]:
-                    if self.y + self.speed < 40:
-                        self.y += self.speed
-                    else:
-                        self.y = self.speed - (40 - self.y)
-                        self.point += 1
-                        if self.point >= len(global_names.PATH) - 2:
-                            self.finish()
+                if self.y + self.speed < 40:
+                    self.y += self.speed
                 else:
-                    if 40 + (self.y - self.speed) >= 0:
-                        self.y -= self.speed
-                    else:
-                        self.y = (-1 * (self.y - self.speed) + (
-                                self.y - self.speed)) / 2
-                        self.point += 1
-                        if self.point >= len(global_names.PATH) - 2:
-                            self.finish()
+                    self.y = self.speed - (40 - self.y)
+                    self.point += 1
+                    if self.point >= len(global_names.PATH) - 2:
+                        self.finish()
+            else:
+                if 40 + (self.y - self.speed) >= 0:
+                    self.y -= self.speed
+                else:
+                    self.y = (-1 * (self.y - self.speed) + (
+                            self.y - self.speed)) / 2
+                    self.point += 1
+                    if self.point >= len(global_names.PATH) - 2:
+                        self.finish()
 
         return self
 

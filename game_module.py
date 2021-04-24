@@ -117,7 +117,8 @@ def game_process():
         monsters_spawn()
 
     for unit in global_names.MONSTERS:
-        unit.move()
+        if unit.point():
+            unit.move()
 
     for tower in global_names.TOWERS:
         if not global_names.TIMER % ((global_names.TOWER_SPEED[-1] / tower.speed) * 10):

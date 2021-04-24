@@ -1,3 +1,5 @@
+import pygame
+
 import global_names
 
 
@@ -37,7 +39,16 @@ class Map:
     def scheme(self, scheme):
         self.__scheme = scheme
 
+    def create(self):
+        pass
+
+    def open(self):
+        pass
+
     def print(self):
+        """
+        Выводит на экран карту
+        """
         for temp_y in range(self.__width):
             for temp_x in range(self.__length):
                 global_names.SCREEN.blit(

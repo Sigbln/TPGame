@@ -49,9 +49,11 @@ class Spawner(Cell):
         self.__power = power
 
     def spawn(self):
+        """
+        Создает монстра
+        """
         for i in range(0, self.power):
-            unit = monster.Monster(
-                global_names.MONSTERS_NAMES[random.randint(0, 2)])
+            unit = monster.Monster(global_names.MONSTERS_NAMES[random.randint(0, 2)])
             unit.hp *= global_names.WAVE_NUMBER
             unit.cost *= global_names.WAVE_NUMBER
             global_names.MONSTERS.append(unit)
@@ -86,7 +88,13 @@ class Castle(Cell):
     def hp(self, hp):
         self.__hp = hp
 
+    def losehp(self):
+        pass
+
     def destroy(self):
+        """
+        Окончание игры, в случае если hp опустиллось до 0
+        """
         global_names.MONSTERS.clear()
         global_names.TOWERS.clear()
         global_names.PATH.clear()
@@ -131,15 +139,23 @@ class Tower(Cell):
         self.__radius = radius
 
     def fire(self):
+        """
+        Наносит урон монстрам в радиусе атаки башни
+        """
         for monster in global_names.MONSTERS:
-            if sqrt((self.x * 40 + 20 - (
-                    monster.x + global_names.PATH[monster.point][
-                0] * 40)) ** 2 +
-                    (self.y * 40 + 20 - (
-                            monster.y + global_names.PATH[monster.point][
-                        1] * 40)) ** 2) <= self.radius:
+            if sqrt((self.x * 40 + 20 - (monster.x + global_names.PATH[monster.point][0] * 40)) ** 2 +
+                    (self.y * 40 + 20 - (monster.y + global_names.PATH[monster.point][1] * 40)) ** 2) <= self.radius:
                 monster.hp -= self.damage
                 monster.injured = True
                 if monster.hp <= 0:
                     monster.kill()
                 break
+
+    def create(self):
+        pass
+
+    def update(self):
+        pass
+
+    def destroy(self):
+        pass

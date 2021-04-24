@@ -80,6 +80,13 @@ class Monster:
     def cost(self, cost):
         self.__cost = cost
 
+    """def spawn(self):
+        for i in global_names.MONSTERS:
+            if not i.point:
+                i.point = 1
+                break
+    """
+
     def move(self):
         if self.point:
             if global_names.PATH[self.point + 1][1] - \
@@ -98,7 +105,7 @@ class Monster:
                         self.x -= self.speed
                     else:
                         self.x = (-1 * (self.x - self.speed) + (
-                                    self.x - self.speed)) / 2
+                                self.x - self.speed)) / 2
                         self.point += 1
                         if self.point >= len(global_names.PATH) - 2:
                             self.finish()
@@ -118,12 +125,15 @@ class Monster:
                         self.y -= self.speed
                     else:
                         self.y = (-1 * (self.y - self.speed) + (
-                                    self.y - self.speed)) / 2
+                                self.y - self.speed)) / 2
                         self.point += 1
                         if self.point >= len(global_names.PATH) - 2:
                             self.finish()
 
         return self
+
+    def injure(self):
+        pass
 
     def kill(self):
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))

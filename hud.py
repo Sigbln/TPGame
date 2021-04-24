@@ -12,6 +12,9 @@ wave = None
 
 
 def update():
+    """
+    Обновляет значение hp, coin, wave
+    """
     global hp, coin, wave
     hp = font.render(str(global_names.CASTLE.hp), True, global_names.WHITE)
     coin = font.render(str(global_names.CASTLE.money), True,

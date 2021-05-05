@@ -65,15 +65,17 @@ def key_check_menu():
     """
     Проверяет нажатие кнопок в меню и реагирует на них
     """
+    MENU_BUTTON_1_POINT = ((440, 300), (440, 300, 640, 375))
+    MENU_BUTTON_2_POINT = ((440, 405), (440, 405, 640, 480))
     for global_names.EVENT in pygame.event.get():
         if global_names.EVENT.type == pygame.QUIT:
             global_names.RUN = False
         if global_names.EVENT.type == pygame.MOUSEBUTTONDOWN:
-            if get_mouse_for_button(global_names.MENU_BUTTON_1_POINT[1]):
+            if get_mouse_for_button(MENU_BUTTON_1_POINT[1]):
                 global_names.LEVELS = True
                 global_names.MENU = False
                 create_map()
-            if get_mouse_for_button(global_names.MENU_BUTTON_2_POINT[1]):
+            if get_mouse_for_button(MENU_BUTTON_2_POINT[1]):
                 global_names.EDITOR = True
                 global_names.MENU = False
                 create_map()
@@ -83,11 +85,11 @@ def draw_window_menu():
     """
     Отрисовывает окно меню
     """
+    MENU_BUTTON_1_POINT = ((440, 300), (440, 300, 640, 375))
+    MENU_BUTTON_2_POINT = ((440, 405), (440, 405, 640, 480))
     global_names.SCREEN.blit(anims.temp_bg, global_names.ORDINARY_START_POINT)
-    global_names.SCREEN.blit(anims.menu_button_level,
-                             global_names.MENU_BUTTON_1_POINT[0])
-    global_names.SCREEN.blit(anims.menu_button_editor,
-                             global_names.MENU_BUTTON_2_POINT[0])
+    global_names.SCREEN.blit(anims.menu_button_level, MENU_BUTTON_1_POINT[0])
+    global_names.SCREEN.blit(anims.menu_button_editor, MENU_BUTTON_2_POINT[0])
     pygame.display.update()
 
 
@@ -95,6 +97,10 @@ def key_check_editor():
     """
     Проверяет нажатие кнопок в редакторе и реагирует на них
     """
+    CELL_MENU_POINTS = (
+        (455, 335), (458, 341, 498, 381), (501, 341, 541, 381),
+        (544, 341, 584, 381),
+        (587, 341, 627, 381))
     for global_names.EVENT in pygame.event.get():
         if global_names.EVENT.type == pygame.QUIT:
             global_names.RUN = False
@@ -102,17 +108,17 @@ def key_check_editor():
             # менюшка с выбором клеток для карты
             if global_names.CELL_MENU:
                 # земля
-                if get_mouse_for_button(global_names.CELL_MENU_POINTS[1]):
+                if get_mouse_for_button(CELL_MENU_POINTS[1]):
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.grass
                 # дорога
-                elif get_mouse_for_button(global_names.CELL_MENU_POINTS[2]):
+                elif get_mouse_for_button(CELL_MENU_POINTS[2]):
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.road
-                elif get_mouse_for_button(global_names.CELL_MENU_POINTS[3]):
+                elif get_mouse_for_button(CELL_MENU_POINTS[3]):
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.spawner
-                elif get_mouse_for_button(global_names.CELL_MENU_POINTS[4]):
+                elif get_mouse_for_button(CELL_MENU_POINTS[4]):
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.castle
                 global_names.CELL_MENU = False
@@ -131,10 +137,13 @@ def draw_window_editor():
     """
     Отрисовывает окно редактора
     """
+    CELL_MENU_POINTS = (
+        (455, 335), (458, 341, 498, 381), (501, 341, 541, 381),
+        (544, 341, 584, 381),
+        (587, 341, 627, 381))
     global_names.MAP.print()
     if global_names.CELL_MENU:
-        global_names.SCREEN.blit(anims.cell_menu,
-                                 global_names.CELL_MENU_POINTS[0])
+        global_names.SCREEN.blit(anims.cell_menu, CELL_MENU_POINTS[0])
     pygame.display.update()
 
 
@@ -142,6 +151,10 @@ def key_check_levels():
     """
     Проверяет нажатие кнопок в меню выбора уровня и в самой игре, реагирует на них
     """
+    LEVELS_ARROWS_POINTS = (
+        (0, 360), (1040, 360), (0, 360, 40, 400), (1040, 360, 1080, 400))
+    LEVELS_PLAY_POINTS = ((300, 605), (300, 605, 500, 680))
+    LEVELS_DELETE_POINTS = ((580, 605), (580, 605, 780, 680))
     for global_names.EVENT in pygame.event.get():
         if global_names.EVENT.type == pygame.QUIT:
             global_names.RUN = False
@@ -149,7 +162,7 @@ def key_check_levels():
             if global_names.PLAY:
                 get_mouse_for_cell()
                 if global_names.MAP.scheme[global_names.TEMP_CELL[1]][
-                   global_names.TEMP_CELL[0]] == anims.grass:
+                    global_names.TEMP_CELL[0]] == anims.grass:
                     # ставит башню там где был произведен клик мышкой
                     if global_names.CASTLE.money >= global_names.TOWER_CREATING_COST:
                         global_names.MAP.scheme[global_names.TEMP_CELL[1]][
@@ -162,7 +175,7 @@ def key_check_levels():
                                        global_names.TOWER_RADIUS[0]))
                         global_names.CASTLE.money -= global_names.TOWER_CREATING_COST
                 elif global_names.MAP.scheme[global_names.TEMP_CELL[1]][
-                     global_names.TEMP_CELL[0]] == anims.tower:
+                    global_names.TEMP_CELL[0]] == anims.tower:
                     # убирает башню если по ней был произведен клик мышкой
                     global_names.MAP.scheme[global_names.TEMP_CELL[1]][
                         global_names.TEMP_CELL[0]] = anims.grass
@@ -174,27 +187,25 @@ def key_check_levels():
                 pass
             else:
                 # стрелка влево
-                if get_mouse_for_button(global_names.LEVELS_ARROWS_POINTS[2]):
+                if get_mouse_for_button(LEVELS_ARROWS_POINTS[2]):
                     print(len(global_names.MAPS_COLLECTION))
                     if global_names.TEMP_ID in range(1,
                                                      len(global_names.MAPS_COLLECTION)):
                         global_names.TEMP_ID -= 1
                         global_names.MAP.scheme = saver.convert()
                 # стрелка вправо
-                elif get_mouse_for_button(
-                        global_names.LEVELS_ARROWS_POINTS[3]):
+                elif get_mouse_for_button(LEVELS_ARROWS_POINTS[3]):
                     if global_names.TEMP_ID in range(
                             len(global_names.MAPS_COLLECTION) - 1):
                         global_names.TEMP_ID += 1
                         global_names.MAP.scheme = saver.convert()
                         print("p")
                 # кнопка начала игры
-                elif get_mouse_for_button(global_names.LEVELS_PLAY_POINTS[1]):
+                elif get_mouse_for_button(LEVELS_PLAY_POINTS[1]):
                     global_names.PLAY = True
                     game_module.way_to_move()
                 # кнопка удаления карты
-                elif get_mouse_for_button(
-                        global_names.LEVELS_DELETE_POINTS[1]):
+                elif get_mouse_for_button(LEVELS_DELETE_POINTS[1]):
                     global_names.MAPS_COLLECTION.pop(global_names.TEMP_ID)
                     global_names.TEMP_ID = global_names.EMPTY
                     global_names.MAP.scheme = saver.convert()
@@ -204,7 +215,11 @@ def draw_window_levels():
     """
     Отрисоввывает окно выбора уровня или окно самой игры
     """
+    LEVELS_ARROWS_POINTS = (
+        (0, 360), (1040, 360), (0, 360, 40, 400), (1040, 360, 1080, 400))
+    LEVELS_PLAY_POINTS = ((300, 605), (300, 605, 500, 680))
     global_names.MAP.print()
+    LEVELS_DELETE_POINTS = ((580, 605), (580, 605, 780, 680))
     if global_names.PLAY:
         for unit in global_names.MONSTERS:
             if not unit.injured:
@@ -225,12 +240,8 @@ def draw_window_levels():
         global_names.SCREEN.blit(hud.coin, global_names.COIN_POINT)
         global_names.SCREEN.blit(hud.wave, global_names.WAVE_POINT)
     else:
-        global_names.SCREEN.blit(anims.left_arrow,
-                                 global_names.LEVELS_ARROWS_POINTS[1])
-        global_names.SCREEN.blit(anims.right_arrow,
-                                 global_names.LEVELS_ARROWS_POINTS[0])
-        global_names.SCREEN.blit(anims.play_button,
-                                 global_names.LEVELS_PLAY_POINTS[0])
-        global_names.SCREEN.blit(anims.delete_button,
-                                 global_names.LEVELS_DELETE_POINTS[0])
+        global_names.SCREEN.blit(anims.left_arrow, LEVELS_ARROWS_POINTS[1])
+        global_names.SCREEN.blit(anims.right_arrow, LEVELS_ARROWS_POINTS[0])
+        global_names.SCREEN.blit(anims.play_button, LEVELS_PLAY_POINTS[0])
+        global_names.SCREEN.blit(anims.delete_button, LEVELS_DELETE_POINTS[0])
     pygame.display.update()

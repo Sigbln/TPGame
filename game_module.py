@@ -117,7 +117,7 @@ def game_process():
         monsters_spawn()
 
     for unit in global_names.MONSTERS:
-        if unit.point():
+        if unit.point:
             unit.move()
 
     for tower in global_names.TOWERS:

@@ -1,8 +1,5 @@
-import anims
-
 import cell
 
-# font
 FONT_SIZE = 40
 HP_POINT = (950, 607)
 COIN_POINT = (1010, 650)
@@ -47,17 +44,11 @@ CELL_MENU = False
 PLAY = False
 SAVE = False
 
-
 MAP = None
 
 ANIM_COUNT = 0
 EMPTY = 0
 TIME_SAVE = 30
-
-DICTIONARY_TO = {anims.grass: 1, anims.road: 2, anims.spawner: 3,
-                 anims.castle: 4, anims.grass: 5}
-DICTIONARY_FROM = {1: anims.grass, 2: anims.road, 3: anims.spawner,
-                   4: anims.castle, 5: anims.grass}
 
 # game process
 TIMER = 0

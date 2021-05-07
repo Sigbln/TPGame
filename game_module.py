@@ -15,7 +15,7 @@ def way_to_move():
     for i in range(n):
         line = []
         for k in range(len(special_map[i])):
-            if special_map[i][k] == 1 or special_map[i][k] == 5:
+            if special_map[i][k] == 1:
                 line.append(-1)
             elif special_map[i][k] == 2:
                 line.append(0)
@@ -103,26 +103,3 @@ def monsters_spawn():
         if not unit.point:
             unit.point = 1
             break
-
-
-def game_process():
-    """
-    Игровой процесс
-    """
-    if not (global_names.TIMER / 30 - len(global_names.MONSTERS) - global_names.WAVE_LONG) % 10:
-        global_names.SPAWNER.spawn()
-        global_names.WAVE_NUMBER += 1
-
-    if not global_names.TIMER % 30:
-        monsters_spawn()
-
-    for unit in global_names.MONSTERS:
-        if unit.point:
-            unit.move()
-
-    for tower in global_names.TOWERS:
-        if not global_names.TIMER % ((global_names.TOWER_SPEED[-1] / tower.speed) * 10):
-            tower.fire()
-
-    global_names.TIMER += 1
-    graphic.draw_window_levels()

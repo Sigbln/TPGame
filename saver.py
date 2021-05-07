@@ -14,7 +14,7 @@ def load():
             global_names.MAPS_COLLECTION = pickle.load(f)
 
 
-def convert():
+def convert(dictionary):
     """
     Переводит карту под номером TEMP_ID из массива карт из формата массива чисел,
     в котором они сохраняются в массив картинок
@@ -24,14 +24,14 @@ def convert():
     for temp_y in range(global_names.MAP.width):
         temp_data = []
         for temp_x in range(global_names.MAP.length):
-            temp_data.append(global_names.DICTIONARY_FROM[
+            temp_data.append(dictionary[
                                  global_names.MAPS_COLLECTION[
                                      global_names.TEMP_ID][temp_y][temp_x]])
         data.append(temp_data)
     return data
 
 
-def save_after_editor():
+def save_after_editor(dictionary):
     """
     Добавляет только что созданную карту к тем, что уже были и сохраняет их все в файл
     """
@@ -40,7 +40,7 @@ def save_after_editor():
         for temp_y in range(global_names.MAP.width):
             temp_data = []
             for temp_x in range(global_names.MAP.length):
-                temp_data.append(global_names.DICTIONARY_TO[
+                temp_data.append(dictionary[
                                      global_names.MAP.scheme[temp_y][temp_x]])
             data.append(temp_data)
         global_names.MAPS_COLLECTION.append(data)

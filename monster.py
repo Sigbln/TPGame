@@ -1,11 +1,15 @@
+import cell
 import global_names
 
 
 class Monster:
+    names = ["Bugbear", "Hobgoglin", "Runner"]
+    cost = {"Bugbear": 1, "Hobgoglin": 1, "Runner": 1}
 
     def __init__(self, name):
         species = {"Bugbear": [12, 1, 1, 1], "Hobgoglin": [20, 2, 1, 5],
                    "Runner": [4, 1, 3, 1]}
+
         self.__name = name
         self.__x = 0
         self.__y = 0
@@ -80,66 +84,66 @@ class Monster:
     def cost(self, cost):
         self.__cost = cost
 
-    def move(self):
+    def move(self, CASTLE, PLAY, LEVELS, SPAWNER, MENU):
         """
         Перемещает монстра в соответствии  с его скоростью
         """
-
         if global_names.PATH[self.point + 1][1] - \
                 global_names.PATH[self.point][1]:
             if global_names.PATH[self.point + 1][1] > \
                     global_names.PATH[self.point][1]:
-                if self.x + self.speed < 40:
+                if self.x + self.speed < cell.Cell.SIZE:
                     self.x += self.speed
                 else:
-                    self.x = self.speed - (40 - self.x)
+                    self.x = self.speed - (cell.Cell.SIZE - self.x)
                     self.point += 1
                     if self.point >= len(global_names.PATH) - 2:
-                        self.finish()
+                        PLAY, LEVELS, SPAWNER, CASTLE, MENU = self.finish(CASTLE, PLAY, LEVELS, SPAWNER, MENU)
             else:
-                if 40 + (self.x - self.speed) >= 0:
+                if cell.Cell.SIZE + (self.x - self.speed) >= 0:
                     self.x -= self.speed
                 else:
                     self.x = (-1 * (self.x - self.speed) + (
                             self.x - self.speed)) / 2
                     self.point += 1
                     if self.point >= len(global_names.PATH) - 2:
-                        self.finish()
+                        PLAY, LEVELS, SPAWNER, CASTLE, MENU = self.finish(CASTLE, PLAY, LEVELS, SPAWNER, MENU)
         elif global_names.PATH[self.point + 1][0] - \
                 global_names.PATH[self.point][0]:
             if global_names.PATH[self.point + 1][0] > \
                     global_names.PATH[self.point][0]:
-                if self.y + self.speed < 40:
+                if self.y + self.speed < cell.Cell.SIZE:
                     self.y += self.speed
                 else:
-                    self.y = self.speed - (40 - self.y)
+                    self.y = self.speed - (cell.Cell.SIZE - self.y)
                     self.point += 1
                     if self.point >= len(global_names.PATH) - 2:
-                        self.finish()
+                        PLAY, LEVELS, SPAWNER, CASTLE, MENU = self.finish(CASTLE, PLAY, LEVELS, SPAWNER, MENU)
             else:
-                if 40 + (self.y - self.speed) >= 0:
+                if cell.Cell.SIZE + (self.y - self.speed) >= 0:
                     self.y -= self.speed
                 else:
                     self.y = (-1 * (self.y - self.speed) + (
                             self.y - self.speed)) / 2
                     self.point += 1
                     if self.point >= len(global_names.PATH) - 2:
-                        self.finish()
+                        PLAY, LEVELS, SPAWNER, CASTLE, MENU = self.finish(CASTLE, PLAY, LEVELS, SPAWNER, MENU)
 
-        return self
+        return PLAY, LEVELS, SPAWNER, CASTLE, MENU
 
-    def kill(self):
+    def kill(self, CASTLE):
         """
         Убивает монстра
         """
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
-        global_names.CASTLE.money += self.cost
+        CASTLE.money += self.cost
 
-    def finish(self):
+    def finish(self, CASTLE, PLAY, LEVELS, SPAWNER, MENU):
         """
         Запускается если монстр дошел до замка
         """
         global_names.MONSTERS.pop(global_names.MONSTERS.index(self))
-        global_names.CASTLE.hp -= self.damage
-        if global_names.CASTLE.hp <= global_names.EMPTY:
-            global_names.CASTLE.destroy()
+        CASTLE.hp -= self.damage
+        if CASTLE.hp <= global_names.EMPTY:
+            PLAY, LEVELS, SPAWNER, CASTLE, MENU = CASTLE.destroy(PLAY, LEVELS, SPAWNER, CASTLE, MENU)
+        return PLAY, LEVELS, SPAWNER, CASTLE, MENU

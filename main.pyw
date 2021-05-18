@@ -1,26 +1,25 @@
 import pygame
 
-import global_names
-import game_module
 import graphic
 import saver
 
 graphic = graphic.Graphic()
+saver = saver.saver()
 
 graphic.create_window()
 
 saver.load()
 
-while global_names.RUN:
-    graphic.set_fps(global_names.FPS)
-    if global_names.MENU:
+while graphic.RUN:
+    graphic.set_fps(graphic.FPS)
+    if graphic.MENU:
         graphic.key_check_menu()
         graphic.draw_window_menu()
-    if global_names.EDITOR:
+    if graphic.EDITOR:
         graphic.key_check_editor()
         graphic.draw_window_editor()
-    if global_names.LEVELS:
-        if global_names.PLAY:
+    if graphic.LEVELS:
+        if graphic.PLAY:
             graphic.game_process()
         graphic.key_check_levels()
         graphic.draw_window_levels()

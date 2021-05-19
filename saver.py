@@ -5,6 +5,10 @@ import global_names
 
 
 class saver:
+
+    def __init__(self):
+        self.temp_maps = []
+
     def load(self):
         """
         Загружает из файла уже созданные карты
@@ -26,7 +30,8 @@ class saver:
             for temp_x in range(map.length):
                 temp_data.append(dictionary[
                                      global_names.MAPS_COLLECTION[
-                                         global_names.TEMP_ID][temp_y][temp_x]])
+                                         global_names.TEMP_ID][temp_y][
+                                         temp_x]])
             data.append(temp_data)
         return data
 
@@ -35,14 +40,13 @@ class saver:
         Добавляет только что созданную карту к тем, что уже были и сохраняет их все в файл
         """
         with open("maps/maps.pickle", "wb") as f:
-            data = []
             for temp_y in range(MAP.width):
                 temp_data = []
                 for temp_x in range(MAP.length):
                     temp_data.append(dictionary[
                                          MAP.scheme[temp_y][temp_x]])
-                data.append(temp_data)
-            global_names.MAPS_COLLECTION.append(data)
+                self.temp_maps.append(temp_data)
+            global_names.MAPS_COLLECTION.append(self.temp_maps)
             pickle.dump(global_names.MAPS_COLLECTION, f)
 
     def save(self):
